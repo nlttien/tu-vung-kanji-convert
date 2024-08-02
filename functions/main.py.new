@@ -1,0 +1,50 @@
+# Welcome to Cloud Functions for Firebase for Python!
+# To get started, simply uncomment the below code or create your own.
+# Deploy with `firebase deploy`
+
+from firebase_functions import https_fn
+from firebase_admin import initialize_app
+import pykakasi
+from flask import Flask, request, jsonify
+
+initialize_app()
+
+app = Flask(__name__)
+kakasi = pykakasi.kakasi()
+
+# Khởi tạo pykakasi
+
+@app.route('/convert', methods=['POST'])
+def convert_tu_vung():
+    data = request.get_json()
+    if 'query' not in data:
+        return jsonify({"error": "No query provided"}), 400
+
+    query = data['query']
+    
+    # # Văn bản cần chuyển đổi  
+    # text = "第一条：ぐずぐずと始めるな時間厳守。/行動5分前には所定の場所で/仕事の準備と心の準備を/整えて待機せよ。"
+
+    # Chuyển đổi
+    result = kakasi.convert(query)
+
+    hira_values = [entry['hira'] for entry in result]
+
+    # Nối các giá trị 'hira' lại với nhau
+    joined_hira = ''.join(hira_values)
+    return jsonify({"converted_text": joined_hira})
+
+# Export the app to Firebase Cloud Functions
+https_fn.on_request(app)
+
+# initialize_app()
+
+
+
+# @https_fn.on_request()
+# def convert_tu_vung(req: https_fn.Request) -> https_fn.Response:
+#     return https_fn.Response(joined_hira)
+
+
+
+
