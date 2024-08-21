@@ -45,6 +45,7 @@ def convert_tu_vung(req: https_fn.Request) -> https_fn.Response:
     
     query = data['query']
     dataRequest["query"] =  query
+    
     response = requests.post(url, headers=headers, json=dataRequest)
     
     result = kakasi.convert(query)
@@ -54,11 +55,13 @@ def convert_tu_vung(req: https_fn.Request) -> https_fn.Response:
     # Nối các giá trị 'hira' lại với nhau
     joined_hira = ''.join(hira_values)
     
+    list_kanji = select_array_kanji(query,response.json()['results'])
+    
     if response.status_code == 200:
     # In kết quả trả về
         response_json = {
             "joined_hira": joined_hira,
-            "converted_data": convert_to_string(response.json())
+            "converted_data": convert_to_string(list_kanji)
         }
     else:
         response_json = {
@@ -67,15 +70,65 @@ def convert_tu_vung(req: https_fn.Request) -> https_fn.Response:
 
     return https_fn.Response(json.dumps(response_json, ensure_ascii=False))
 
+@https_fn.on_request()
+def convert_multi_tu_vung(req: https_fn.Request) -> https_fn.Response:
+    data = req.get_json()
+
+    if 'query' not in data or not isinstance(data['query'], list):
+        return jsonify({"error": "No valid query provided"}), 400
+    
+    queries = data['query']
+    
+    # Convert the list of queries into a single concatenated string
+    concatenated_queries = ''.join(queries)
+
+    # Prepare the data request
+    dataRequest["query"] = concatenated_queries
+
+    # Call the API with the concatenated queries
+    response = requests.post(url, headers=headers, json=dataRequest)
+    response_json = response.json()["results"]
+
+    results = []
+    
+    for query in queries:
+        dataRequest["query"] = query
+        
+        kakasi_result = kakasi.convert(query)
+        hira_values = [entry['hira'] for entry in kakasi_result]
+        joined_hira = ''.join(hira_values)
+
+        list_kanji = select_array_kanji(query,response_json)
+        
+        if response.status_code == 200:
+            results.append({
+                "japaneseWord": query,
+                "joined_hira": joined_hira,
+                "converted_data": convert_to_string(list_kanji)
+            })
+        else:
+            results.append({
+                "japaneseWord": query,
+                "joined_hira": joined_hira,
+                "converted_data": None
+            })
+
+    return https_fn.Response(json.dumps(results, ensure_ascii=False))
+
+
 def convert_to_string(data):
     # Lấy nghĩa của kanji theo thứ tự
-    kanji_meanings = [result['mean'] for result in data['results']]
+    kanji_meanings = [result['mean'] for result in data]
     
-    kanji_meanings.reverse()
-
     # List comprehension để lấy phần đầu tiên của mỗi nghĩa
     first_meanings = [meaning.split(', ')[0] for meaning in kanji_meanings]
 
     # Nối các nghĩa lại thành một chuỗi và thêm dấu ngoặc 「」 vào đầu và cuối
     result_string = ' '.join(first_meanings)
     return f'「{result_string}」'
+
+def select_array_kanji(data,response_json):
+    chars = [char for char in data]
+        
+        # Sử dụng list comprehension để lọc các phần tử trong array1 mà 'kanji' có trong array2
+    return [item for kanji in chars for item in response_json if item["kanji"] == kanji]

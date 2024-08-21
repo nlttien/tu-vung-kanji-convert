@@ -1,0 +1,112 @@
+POST https://mazii.net/api/search
+Content-Type: application/json
+Accept: application/json, text/plain, */*
+Accept-Language: vi,en;q=0.9,en-GB;q=0.8,en-US;q=0.7,ja;q=0.6
+Priority: u=1, i
+Sec-CH-UA: "Not)A;Brand";v="99", "Microsoft Edge";v="127", "Chromium";v="127"
+Sec-CH-UA-Mobile: ?0
+Sec-CH-UA-Platform: "Windows"
+Sec-Fetch-Dest: empty
+Sec-Fetch-Mode: cors
+Sec-Fetch-Site: same-origin
+Cookie: _gcl_au=1.1.1012853872.1718456491; _ga=GA1.1.203432973.1718456491; G_ENABLED_IDPS=google; _cc_id=158465f1f3e1803de54cf2579f52bbb9; G_AUTHUSER_H=0; _pbjs_userid_consent_data=3524755945110770; __gads=ID=0555675cac498421:T=1719616258:RT=1719616258:S=ALNI_Mb1rFQDBFWrGAPivKPRbqA09fPP2w; __gpi=UID=00000e69f889f475:T=1719616258:RT=1719616258:S=ALNI_MaWcN2TUJbPxdsnS0h1SMkef2ABSQ; __eoi=ID=78d33bfca771904e:T=1719616258:RT=1719616258:S=AA-AfjZYdh1pHA6zXRP5cGY62xzg; cto_bidid=8JbOYl9LSDYlMkJ3TFNHakEwdXNKc1Ztd0MlMkJQT2tRb3N6eCUyQmxUJTJCMk5yUTlIY3pVUTh5T3N2RWhBaE12RyUyQjIxbDZlMUFUUmRWV1dwQmdRbFJNb1R1YkMxNzNoRlAwWCUyQjdpNmdjQVlhenZoZlM2M3J0OXZESGdETWh3T1RTT2xxSVhFdHR6SE5MZjJHcGNyVXVrUFVDMWFxR1clMkJQdyUzRCUzRA; cto_dna_bundle=64DTNl9CdmNRRDg0S1JDakx2MXZ4dE01d2R3dlZEVm5LQjJWJTJCTjV2YkVLMTZnOTNZYXQ0QnhhJTJGNGMlMkJqMVJWbSUyQlM1ajJkTkE2JTJCMDlYd3lpZkdWdVVOM0JzVEElM0QlM0Q; panoramaId_expiry=1723172432633; panoramaId=7dc21a1e92ea95ebffe6bb61f49316d5393870e9e57ef9683f4374bff741536a; panoramaIdType=panoIndiv; cto_bundle=9L5H7F9CdmNRRDg0S1JDakx2MXZ4dE01d2Qyalk3bUZZJTJGJTJCSjFWM2V0JTJCajhzZXB2TWliWlpzWHM3akFCMTZHd2dvS2dqVyUyQldEYnF5eDg3JTJCajhDdDcxejI1T1JpQktJa3RnQU44NUpOc0xGMWZLSXliSDNkJTJCeHNnN0olMkZ1c2RNN1k5QjFYdUs4QU03ZG1uMGk1OXkxeGl6blAwJTJCTkN0UmZ4bDY5U3kxa2daenFKbjU4JTNE; ph_phc_C8t1V9riJI8sIm2fcxyciTpdSEpI2KUFL8RFG2jdTSn_posthog=%7B%22distinct_id%22%3A%2201901bfd-2018-799e-8819-905763a676da%22%2C%22%24sesid%22%3A%5B1722567883138%2C%2201911107-313b-7ea3-b346-92432feeed92%22%2C1722567569723%5D%7D; _ga_MNX2FE1BXT=GS1.1.1722567569.88.1.1722568618.58.0.1119216967; _ga_XN196EXE2T=GS1.1.1722567569.88.1.1722568618.58.0.0
+Referer: https://mazii.net/vi-VN/search
+Referrer-Policy: strict-origin-when-cross-origin
+
+{
+  "dict": "javi",
+  "type": "kanji",
+  "query": "動物植物環境生態系自然",
+  "page": 1
+}
+
+### API 2 - Tạo yêu cầu đến API cục bộ
+### Convert a single word
+POST http://127.0.0.1:5001/tu-vung-447ad/us-central1/convert_tu_vung HTTP/1.1
+Content-Type: application/json
+
+{
+  "query": "時代"
+}
+
+###
+POST http://127.0.0.1:5001/tu-vung-447ad/us-central1/convert_tu_vung/convert_tu_vung HTTP/1.1
+
+### Convert multiple words
+POST http://127.0.0.1:5001/tu-vung-447ad/us-central1/convert_multi_tu_vung
+Content-Type: application/json
+
+{
+  "query": ["動物", "植物", "環境", "生態系", "自然"]
+}
+
+
+### API 2 - Tạo yêu cầu đến API cục bộ
+POST http://127.0.0.1:5001/tu-vung-447ad/us-central1/beServerFunction/api/vocabularies
+Content-Type: application/json
+
+{
+  "japaneseWord": "時代",
+  "category": "Lịch sử",
+  "color": "#A9A9A9",
+  "popularity": "95",
+  "vietnameseMeaning": "Khoảng thời gian lịch sử, một giai đoạn nhất định",
+  "related_words": [
+    "歴史",
+    "年号",
+    "文化",
+    "社会"
+  ],
+  "antonyms": [],
+  "vocabularyForms": {
+    "dictionary": "時代",
+    "past": "時代だった",
+    "negative": "時代でない",
+    "polite": "時代です",
+    "te": "時代で",
+    "potential": "時代になる",
+    "passive": "時代になる",
+    "causative": "時代にする",
+    "causative_passive": "時代にされる",
+    "conditional": "時代ならば",
+    "imperative": "時代になれ",
+    "volitional": "時代になりたい",
+    "prohibitive": "時代になるな"
+  },
+  "joined_hira": "じだい",
+  "converted_data": "「ĐẠI THÌ」"
+}
+
+### API 2 - Tạo yêu cầu đến API cục bộ
+GET http://127.0.0.1:5001/tu-vung-447ad/us-central1/beServerFunction/api/vocabularies/66b31b8cbc05b98d45685581
+
+Content-Type: application/json
+
+# {
+#   "_id": "66b1e9f10649103ab548f516",
+# }
+
+### API 2 - Tạo yêu cầu đến API cục bộ
+DELETE  http://127.0.0.1:3001/api/vocabularies/66b1e95a1effafc30992310a
+Content-Type: application/json
+
+# {
+#   "_id": "66b1e9f10649103ab548f516",
+# }
+
+
+### 
+POST http://127.0.0.1:5001/tu-vung-447ad/us-central1/beServerFunction/api/vocabylary/search
+Content-Type: application/json
+
+{
+  "subject": "時代"
+}
+
+### 
+GET  http://127.0.0.1:5001/tu-vung-447ad/us-central1/tuVungFunction/api/auth/verify-token
+Content-Type: application/json
+
+{
+  "username": "nguyen", "password":"letrong"
+}
