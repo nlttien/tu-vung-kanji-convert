@@ -79,6 +79,9 @@ def convert_multi_tu_vung(req: https_fn.Request) -> https_fn.Response:
     
     queries = data['query']
     
+    if not queries:
+        return https_fn.Response(json.dumps([]), mimetype='application/json')
+    
     # Convert the list of queries into a single concatenated string
     concatenated_queries = ''.join(queries)
 
@@ -129,6 +132,10 @@ def convert_to_string(data):
 
 def select_array_kanji(data,response_json):
     chars = [char for char in data]
+    
+    for item in response_json:
+        if 'kanji' not in item:
+           return []
         
         # Sử dụng list comprehension để lọc các phần tử trong array1 mà 'kanji' có trong array2
     return [item for kanji in chars for item in response_json if item["kanji"] == kanji]

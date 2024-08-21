@@ -21,23 +21,24 @@ Referrer-Policy: strict-origin-when-cross-origin
 }
 
 ### API 2 - Tạo yêu cầu đến API cục bộ
-### Convert a single word
-POST http://127.0.0.1:5001/tu-vung-447ad/us-central1/convert_tu_vung HTTP/1.1
+### Convert a single word http://127.0.0.1:5001/tu-vung-447ad/us-central1/convert_tu_vung
+POST http://127.0.0.1:5001/tu-vung-447ad/us-central1/convert_tu_vung
 Content-Type: application/json
 
 {
-  "query": "時代"
+  "query": "ために"
 }
 
 ###
 POST http://127.0.0.1:5001/tu-vung-447ad/us-central1/convert_tu_vung/convert_tu_vung HTTP/1.1
 
 ### Convert multiple words
-POST http://127.0.0.1:5001/tu-vung-447ad/us-central1/convert_multi_tu_vung
+POST https://convert-multi-tu-vung-a4dyqf7unq-uc.a.run.app
 Content-Type: application/json
 
 {
-  "query": ["動物", "植物", "環境", "生態系", "自然"]
+  "query": [
+  ]
 }
 
 
